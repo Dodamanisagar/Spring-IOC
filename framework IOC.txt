@@ -1,0 +1,669 @@
+steps in framework:-
+1.creat a main classs
+2.build a path for required jar files
+3.creat container inside main class and pass xml.file inside that (we used ApplicationContext container)
+4.creat another class of which we have to creat object in side that generate setter and getter methods and override tostring method
+5.creat xml.file----->tells container ,which objects we want to creat (xml.file must be inside src file)
+
+main class:-
+1)package springBoot;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class zomato {
+	public static void main(String[] args)
+	{
+		//creating container
+		ApplicationContext context=new ClassPathXmlApplicationContext("rcb.xml");
+		user u1=(user)context.getBean("sagar");//user---->must be a same as class name of which object we need
+		//u1.orderFood();
+		//u1.setName("Raj");
+		//u1.getUserId();
+		System.out.println(u1);
+	}
+
+}
+
+
+
+class of which object we need:-
+package springBoot;
+
+public class user {
+	
+	String name;
+	int userId;
+	
+	
+	/*public void orderFood()
+	{
+		System.out.println("hello,i have ordered food");
+	}*/
+	
+	//setters and getters methods
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	@Override
+	public String toString() {
+		return "user [name=" + name + ", userId=" + userId + "]";
+	}
+	
+	
+
+}
+
+configuration file or xml file:-
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!-- xml file must be under the src other wise "java.io.FileNotFoundException" we get -->
+<beans>
+<bean id="sagar" class="springBoot.user">
+<property name="userId" value="12"></property>
+<property name="name" value="ram"></property>
+</bean>
+</beans>
+
+Output:-
+user [name=ram, userId=12]
+
+
+-----------------------------------******---------------------------------------------------------------
+
+2)package springBoot;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class zomato {
+	public static void main(String[] args)
+	{
+		//creating container
+		ApplicationContext context=new ClassPathXmlApplicationContext("rcb.xml");
+		
+		//creating object---1
+		user u1=(user)context.getBean("sagar");//user---->must be a small letter
+		//u1.orderFood();
+		//u1.setName("Raj");
+		//u1.getUserId();
+		System.out.println(u1);
+		
+		//creating  object---2
+		user u2=(user)context.getBean("tom");
+		System.out.println(u2);
+	}
+
+}
+
+package springBoot;
+
+public class user {
+	
+	String name;
+	int userId;
+	
+	
+	/*public void orderFood()
+	{
+		System.out.println("hello,i have ordered food");
+	}*/
+	
+	//setters and getters methods
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	@Override
+	public String toString() {
+		return "user [name=" + name + ", userId=" + userId + "]";
+	}
+	
+	
+
+}
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!-- xml file must be under the src other wise "java.io.FileNotFoundException" we get -->
+<beans>
+
+<!-- creating object 1-->
+<bean id="sagar" class="springBoot.user">
+<!-- for setter injection we have to use property tag-->
+<property name="userId" value="12"></property>
+<property name="name" value="ram"></property>
+</bean>
+
+<!-- creating object 2-->
+<bean id="tom" class="springBoot.user">
+<!-- for setter injection we have to use property tag-->
+<property name="userId" value="20"></property>
+<property name="name" value="hanuman"></property>
+</bean>
+
+</beans>
+
+
+Output:-
+user [name=ram, userId=12]
+user [name=hanuman, userId=20]
+
+
+-----------------------------------******---------------------------------------------------------------
+
+03)package springBoot;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class zomato {
+	public static void main(String[] args)
+	{
+		//creating container
+		ApplicationContext context=new ClassPathXmlApplicationContext("rcb.xml");
+		
+		//creating object---1
+		Address u1=(Address)context.getBean("sagar");//user---->must be a small letter
+		//u1.orderFood();
+		//u1.setName("Raj");
+		//u1.getUserId();
+		System.out.println(u1);
+		
+		//creating  object---2
+		Address u2=(Address)context.getBean("tom");
+		System.out.println(u2);
+	}
+
+}
+
+
+package springBoot;
+
+public class Address {
+	
+	String state;
+	String city;
+	
+	@Override
+	public String toString() {
+		return "Address [state=" + state + ", city=" + city + "]";
+	}
+    
+	public String getState() {
+		return state;
+	}
+
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+
+	public String getCity() {
+		return city;
+	}
+
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+}
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!-- xml file must be under the src other wise "java.io.FileNotFoundException" we get -->
+<beans>
+
+<!-- creating object 1-->
+<bean id="sagar" class="springBoot.Address">
+<!-- for setter injection we have to use property tag-->
+<property name="state" value="karnataka"></property>
+<property name="city" value="chikodi"></property>
+</bean>
+
+<!-- creating object 2-->
+<bean id="tom" class="springBoot.Address">
+<!-- for setter injection we have to use property tag-->
+<property name="state" value="karnataka"></property>
+<property name="city" value="belagavi"></property>
+</bean>
+
+</beans>
+
+output:-
+Address [state=karnataka, city=chikodi]
+Address [state=karnataka, city=belagavi]
+
+-----------------------------------******---------------------------------------------------------------
+//example for object inside another object(inside xml file)
+04)package springBoot;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class zomatoserver {
+	public static void main(String[] args) {
+		
+	
+	
+		    ApplicationContext context=new ClassPathXmlApplicationContext("rcb.xml");
+		    user A=(user)context.getBean("abhi");
+		    
+		    System.out.println(A);
+	    
+	}
+
+}
+
+
+package springBoot;
+
+public class user {
+	private String userName;
+	private int userId;
+	private Address homeAddress;
+	
+	
+	
+	user()
+	{
+		System.out.println("i am a zero args constructor");
+	}
+	
+	user(String username,int userid)
+	{
+		this.userName=userName;
+		this.userId=userId;
+	}
+	
+	@Override
+	public String toString() {
+		return "user [userName=" + userName + ", userId=" + userId + ", homeAddress=" + homeAddress + "]";
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public Address getHomeAddress() {
+		return homeAddress;
+	}
+
+	public void setHomeAddress(Address homeAddress) {
+		this.homeAddress = homeAddress;
+	}
+
+	
+	
+//	public void orderFood()
+//	{
+//		System. out.println("Hello, i have ordered a food");
+//	}
+
+
+}
+
+
+package springBoot;
+
+public class Address {
+	
+	 String state;
+	 String city;
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	@Override
+	public String toString() {
+		return "Address [state=" + state + ", city=" + city + "]";
+	}
+}
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+
+<beans>
+<bean id="abhi" class="springBoot.user">
+<property name="userId" value="18"></property>
+<property name="userName" value="Virat kohli"></property>
+<property name="homeAddress" ref="pavan"></property>  < !-------->'ref'' is used when we want to set the values of one object to the data member of another object
+                                                                                                 for 'ref' we always we have to pass the ID of different object which we created-->
+</bean>
+
+<bean id="pavan" class="springBoot.Address">
+<property name="city" value="Bengaluru"></property>
+<property name="state" value="Karnataka"></property>
+</bean>
+</beans>
+
+Output:-
+i am a zero args constructor
+user [userName=Virat kohli, userId=18, 
+homeAddress=Address [state=Karnataka, city=Bengaluru]]
+
+
+-----------------------------------******---------------------------------------------------------------
+
+05)package springBoot;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class zomatoserver {
+	public static void main(String[] args) {
+		
+	
+	
+			ApplicationContext context=new ClassPathXmlApplicationContext("rcb.xml");
+		    user A=(user)context.getBean("abhi");
+		    
+		    System.out.println(A);
+	    
+	}
+
+}
+
+package springBoot;
+
+public class Address {
+	
+	 String state;
+	 String city;
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	@Override
+	public String toString() {
+		return "Address [state=" + state + ", city=" + city + "]";
+	}
+}
+
+
+package springBoot;
+
+public class user {
+	private String userName;
+	private int userId;
+	private Address homeAddress;
+	private Address workAddress;
+	
+
+	user()
+	{
+		System.out.println("i am a zero args constructor");
+	}
+	
+	user(String username,int userid)
+	{
+		this.userName=userName;
+		this.userId=userId;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "user [userName=" + userName + ", userId=" + userId + ", homeAddress=" + homeAddress + ", workAddress="
+				+ workAddress + "]";
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public Address getHomeAddress() {
+		return homeAddress;
+	}
+
+	public void setHomeAddress(Address homeAddress) {
+		this.homeAddress = homeAddress;
+	}
+	public Address getWorkAddress() {
+		return workAddress;
+	}
+
+	public void setWorkAddress(Address workAddress) {
+		this.workAddress = workAddress;
+	}
+
+	
+	
+//	public void orderFood()
+//	{
+//		System. out.println("Hello, i have ordered a food");
+//	}
+
+
+
+}
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+<bean id="abhi" class="springBoot.user">
+<property name="userId" value="18"></property>
+<property name="userName" value="Virat kohli"></property>
+<property name="homeAddress" ref="sagar"></property>
+<property name="workAddress" ref="raj"></property>
+</bean>
+
+<bean id="sagar" class="springBoot.Address">
+<property name="city" value="Bengaluru"></property>
+<property name="state" value="Karnataka"></property>
+</bean>
+
+<bean id="raj" class="springBoot.Address">
+<property name="city" value="Bengaluru"></property>
+<property name="state" value="Karnataka"></property>
+</bean>
+</beans>
+
+Output:-
+i am a zero args constructor
+user [userName=Virat kohli, userId=18, 
+homeAddress=Address [state=Karnataka, city=Bengaluru], 
+workAddress=Address [state=Karnataka, city=Bengaluru]]
+
+-----------------------------------******---------------------------------------------------------------
+06)package springBoot;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class zomatoserver {
+	public static void main(String[] args) {
+		
+	
+	
+			ApplicationContext context=new ClassPathXmlApplicationContext("rcb.xml");
+		    user A=(user)context.getBean("abhi");
+		    
+		    System.out.println(A);
+	    
+	}
+
+}
+
+package springBoot;
+
+public class Address {
+	
+	 String state;
+	 String city;
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	@Override
+	public String toString() {
+		return "Address [state=" + state + ", city=" + city + "]";
+	}
+}
+
+package springBoot;
+
+public class user {
+	private String userName;
+	private int userId;
+	private Address homeAddress;
+	private Address workAddress;
+	
+
+	user()
+	{
+		System.out.println("i am a zero args constructor");
+	}
+	
+	user(String username,int userid)
+	{
+		this.userName=userName;
+		this.userId=userId;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "user [userName=" + userName + ", userId=" + userId + ", homeAddress=" + homeAddress + ", workAddress="
+				+ workAddress + "]";
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public Address getHomeAddress() {
+		return homeAddress;
+	}
+
+	public void setHomeAddress(Address homeAddress) {
+		this.homeAddress = homeAddress;
+	}
+	public Address getWorkAddress() {
+		return workAddress;
+	}
+
+	public void setWorkAddress(Address workAddress) {
+		this.workAddress = workAddress;
+	}
+
+	
+	
+//	public void orderFood()
+//	{
+//		System. out.println("Hello, i have ordered a food");
+//	}
+
+
+
+}
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+<bean id="abhi" class="springBoot.user" autowire="byName">
+<property name="userId" value="18"></property>
+<property name="userName" value="Virat kohli"></property>
+
+</bean>
+
+<bean id="workAddress" class="springBoot.Address">
+<property name="city" value="Bengaluru"></property>
+<property name="state" value="Karnataka"></property>
+</bean>
+
+<bean id="homeAddress" class="springBoot.Address">
+<property name="city" value="Bengaluru"></property>
+<property name="state" value="Karnataka"></property>
+</bean>
+</beans>
+
+
+Output:-
+i am a zero args constructor
+user [userName=Virat kohli, userId=18, 
+homeAddress=Address [state=Karnataka, city=Bengaluru], 
+workAddress=Address [state=Karnataka, city=Bengaluru]]
+
+
+
+
+
+
+
